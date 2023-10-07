@@ -1,8 +1,10 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_swagger import swagger
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'f15bece435da232d6b42e722081eb4a7'
@@ -17,5 +19,12 @@ login_manager.login_view = 'login' # this is where the viewer will be redirected
 login_manager.login_message_category = 'info'
 
 swg = swagger(app)
+
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = '' # os.environ.get('EMAIL_USER')
+app.config['MAIL_PASSWORD'] = '' # os.environ.get('EMAIL_PASS')
+mail = Mail(app)
 
 from flaskblog import routes
